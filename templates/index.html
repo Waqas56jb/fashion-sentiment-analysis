@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fashion Sentiment Analyzer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa, #ffffff);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 5% auto;
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #007acc;
+            font-size: 2.4em;
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 140px;
+            padding: 15px;
+            font-size: 1em;
+            border: 2px solid #007acc;
+            border-radius: 12px;
+            resize: none;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #007acc;
+            color: white;
+            font-size: 1.1em;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #005f99;
+        }
+
+        .output {
+            margin-top: 25px;
+            font-size: 1.2em;
+            color: #007acc;
+            font-weight: bold;
+            padding: 10px 20px;
+            background: #e0f2f1;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👗 Fashion Sentiment Analyzer</h1>
+        <form action="/predict" method="post">
+            <textarea name="review" placeholder="Type a fashion product review here..." required></textarea>
+            <br>
+            <button type="submit">Analyze Sentiment</button>
+        </form>
+
+        {% if prediction %}
+            <div class="output">
+                Predicted Sentiment: {{ prediction }}
+            </div>
+        {% endif %}
+    </div>
+    <footer align="center">Made with 💙 for fashion reviews</footer>
+</body>
+</html>
