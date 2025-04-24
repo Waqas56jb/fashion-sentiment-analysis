@@ -1,91 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Fashion Sentiment Analyzer</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #e0f7fa, #ffffff);
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8">
+  <title>Multilingual Sentiment Analyzer</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      color: #0d47a1;
+      cursor: none;
+      overflow-x: hidden;
+    }
 
-        .container {
-            max-width: 700px;
-            margin: 5% auto;
-            background-color: #ffffff;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-radius: 16px;
-            padding: 30px 40px;
-            text-align: center;
-        }
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #e3f2fd;
+      position: relative;
+    }
 
-        h1 {
-            color: #007acc;
-            font-size: 2.4em;
-            margin-bottom: 20px;
-        }
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
 
-        textarea {
-            width: 100%;
-            height: 140px;
-            padding: 15px;
-            font-size: 1em;
-            border: 2px solid #007acc;
-            border-radius: 12px;
-            resize: none;
-        }
+    #custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(33, 150, 243, 0.8);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: transform 0.05s ease-out;
+      box-shadow: 0 0 12px rgba(33, 150, 243, 0.8);
+      z-index: 1000;
+    }
 
-        button {
-            margin-top: 20px;
-            background-color: #007acc;
-            color: white;
-            font-size: 1.1em;
-            padding: 10px 30px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s ease;
-        }
+    header {
+      text-align: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-size: 28px;
+      font-weight: bold;
+      z-index: 1;
+    }
 
-        button:hover {
-            background-color: #005f99;
-        }
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 15px 0;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+      font-size: 14px;
+      z-index: 1;
+    }
 
-        .output {
-            margin-top: 25px;
-            font-size: 1.2em;
-            color: #007acc;
-            font-weight: bold;
-            padding: 10px 20px;
-            background: #e0f2f1;
-            border-radius: 10px;
-            display: inline-block;
-        }
+    .main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px 0;
+    }
 
-        footer {
-            margin-top: 50px;
-            font-size: 0.9em;
-            color: #777;
-        }
-    </style>
+    .container {
+      background: rgba(255, 255, 255, 0.96);
+      padding: 30px 25px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      text-align: center;
+      width: 90%;
+      max-width: 480px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      border: 2px solid #90caf9;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      resize: none;
+    }
+
+    button {
+      background-color: #0d47a1;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 12px 6px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #1565c0;
+    }
+
+    .mic-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .mic-icon img {
+      width: 42px;
+      height: 42px;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      color: green;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>👗 Fashion Sentiment Analyzer</h1>
-        <form action="/predict" method="post">
-            <textarea name="review" placeholder="Type a fashion product review here..." required></textarea>
-            <br>
-            <button type="submit">Analyze Sentiment</button>
-        </form>
+  <div id="particles-js"></div>
+  <div id="custom-cursor"></div>
 
-        {% if prediction %}
-            <div class="output">
-                Predicted Sentiment: {{ prediction }}
-            </div>
-        {% endif %}
+  <header>Multilingual Fashion Sentiment Analyzer</header>
+
+  <div class="main">
+    <div class="container">
+      <form method="POST" action="/predict">
+        <textarea id="review" name="review" placeholder="Speak or type your review in any language..." required></textarea><br>
+        <button class="mic-icon" type="button" onclick="startDictation()">
+          <img src="https://img.icons8.com/ios-filled/50/000000/microphone.png" alt="Speak">
+        </button><br>
+        <button type="submit">Predict Sentiment</button>
+      </form>
+
+      {% if prediction %}
+        <div class="result">Predicted Sentiment: {{ prediction }}</div>
+      {% endif %}
     </div>
-    <footer align="center">Made with 💙 for fashion reviews</footer>
+  </div>
+
+  <footer>© 2025 Sentiment AI | All rights reserved</footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 120 },
+        color: { value: "#2196f3" },
+        shape: { type: "circle" },
+        opacity: {
+          value: 0.5,
+          random: true
+        },
+        size: {
+          value: 4,
+          random: true
+        },
+        line_linked: {
+          enable: true,
+          distance: 120,
+          color: "#2196f3",
+          opacity: 0.3,
+          width: 1.2
+        },
+        move: {
+          enable: true,
+          speed: 2.5
+        }
+      },
+      interactivity: {
+        events: {
+          onhover: { enable: true, mode: "grab" }
+        }
+      },
+      retina_detect: true
+    });
+
+    // Cursor Animation
+    const cursor = document.getElementById("custom-cursor");
+    document.addEventListener("mousemove", (e) => {
+      cursor.style.top = `${e.clientY}px`;
+      cursor.style.left = `${e.clientX}px`;
+    });
+
+    // Speech Recognition
+    function startDictation() {
+      if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'auto';
+
+        recognition.start();
+
+        recognition.onresult = function(event) {
+          document.getElementById("review").value = event.results[0][0].transcript;
+        };
+
+        recognition.onerror = function(event) {
+          alert("Voice recognition error: " + event.error);
+        };
+      } else {
+        alert("Speech recognition not supported in this browser.");
+      }
+    }
+  </script>
 </body>
 </html>
