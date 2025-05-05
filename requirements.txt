@@ -4,3 +4,10 @@ flask
 joblib
 scikit-learn
 pandas
+youtube-comment-downloader
+pytube
+tqdm
+requests
+google-api-python-client
+google-auth-oauthlib
+DrissionPage

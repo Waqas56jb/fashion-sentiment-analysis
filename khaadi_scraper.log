@@ -1,0 +1,12 @@
+2025-05-05 05:03:19,044 - INFO - Starting scrape for channel: https://www.youtube.com/@Khaadi
+2025-05-05 05:03:19,046 - ERROR - Attempt 1 failed to fetch video URLs: channel_name: could not find match for patterns
+2025-05-05 05:03:24,052 - ERROR - Attempt 2 failed to fetch video URLs: channel_name: could not find match for patterns
+2025-05-05 05:03:29,057 - ERROR - Attempt 3 failed to fetch video URLs: channel_name: could not find match for patterns
+2025-05-05 05:03:29,057 - ERROR - Max retries reached. Exiting.
+2025-05-05 05:03:29,058 - ERROR - No videos found. Exiting.
+2025-05-05 05:04:08,766 - INFO - Starting scrape for channel: https://www.youtube.com/@Khaadi
+2025-05-05 05:04:08,767 - ERROR - Attempt 1 failed to fetch video URLs: channel_name: could not find match for patterns
+2025-05-05 05:04:13,776 - ERROR - Attempt 2 failed to fetch video URLs: channel_name: could not find match for patterns
+2025-05-05 05:04:18,792 - ERROR - Attempt 3 failed to fetch video URLs: channel_name: could not find match for patterns
+2025-05-05 05:04:18,792 - ERROR - Max retries reached. Exiting.
+2025-05-05 05:04:18,792 - ERROR - No videos found. Exiting.
